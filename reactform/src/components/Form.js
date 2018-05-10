@@ -1,25 +1,52 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Password } from "./Password";
+import { httpReq } from "../utils/httpReq";
 
 export class Form extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      phone: "",
+      username: "",
+      password: "",
+      subscribe: ""
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit() {
+    httpReq(this.state);
+  }
+
   render() {
     return (
-      <div>
-        <input type="text" name="email" />
-        <label for="email">Email</label>
-        <input type="number" name="phone" />
-        <label for="phone">Phone</label>
-        <input type="text" name="username" />
-        <label for="email">Username</label>
-        <input type="text" name="password" />
-        <label for="email">Password</label>
-        <input type="text" name="confirmPassword" />
-        <label for="email">Confirm Password</label>
-        <input type="checkbox" label="subscribe" />
-        <label for="subscribe">
-          I would like to receive emails about our services
+      <form className="userForm" onSubmit={this.handleSubmit}>
+        <label>
+          Email
+          <input type="text" name="email" value={this.state.email} />
         </label>
-      </div>
+        <label>
+          Phone
+          <input type="text" name="phone" value={this.state.phone} />
+        </label>
+        <label>
+          Username
+          <input type="text" name="username" value={this.state.username} />
+        </label>
+        <Password password={this.state.password} />
+        <label>
+          I would like to receive emails about our services
+          <input
+            type="checkbox"
+            label="subscribe"
+            value={this.state.subscribe}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
     );
   }
 }
