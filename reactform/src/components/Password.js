@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { httpReq } from "../utils/httpReq";
 
 export class Password extends React.Component {
   render() {
@@ -7,7 +7,7 @@ export class Password extends React.Component {
       <div>
         <label>
           Password
-          <input type="password" name="password" value={this.props.password} />
+          <input type="password" name="password" />
         </label>
         <label>
           Confirm Password
