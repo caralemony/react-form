@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Password } from "./Password";
+import { Email } from "./Email";
+import { Phone } from "./Phone";
 import httpReq from "../utils/httpReq";
 
 export class Form extends React.Component {
@@ -36,14 +38,8 @@ export class Form extends React.Component {
   render() {
     return (
       <form className="userForm" onSubmit={this.handleSubmit}>
-        <label>
-          Email
-          <input type="text" name="email" onChange={this.handleInputChange} />
-        </label>
-        <label>
-          Phone
-          <input type="text" name="phone" onChange={this.handleInputChange} />
-        </label>
+        <Email handleInputChange={this.handleInputChange} />
+        <Phone handleInputChange={this.handleInputChange} />
         <label>
           Username
           <input

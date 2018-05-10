@@ -1,5 +1,4 @@
 import React from "react";
-import { httpReq } from "../utils/httpReq";
 
 export class Password extends React.Component {
   render() {
