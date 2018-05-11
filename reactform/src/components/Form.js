@@ -22,6 +22,8 @@ export class Form extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.validatePW = this.validatePW.bind(this);
+    this.validateNum = this.validateNum.bind(this);
   }
 
   handleInputChange(event) {
@@ -32,12 +34,38 @@ export class Form extends React.Component {
     this.setState({
       [name]: value
     });
+    console.log(this.state);
+  }
+
+  validatePW(event) {
+    this.state.Password.length < 8
+      ? this.setState({ PasswordError: "" })
+      : this.setState({
+          PasswordError: "Passord must be 8 characters or longer"
+        });
+  }
+
+  validateNum(event) {
+    const phoneNum = this.state.Phone;
+    phoneNum.match(/\d/g).length === 11 && phoneNum.startsWith(0)
+      ? this.setState({ PhoneError: "" })
+      : this.setState({ PhoneError: "Please enter a valid phone number" });
   }
 
   handleSubmit(event) {
     event.preventDefault();
     httpReq(this.state);
-    console.log(this.state);
+    this.setState({
+      Email: "",
+      EmailError: "",
+      Phone: "",
+      PhoneError: "",
+      Username: "",
+      UsernameError: "",
+      Password: "",
+      PasswordError: "",
+      Subscribe: false
+    });
   }
 
   render() {
@@ -46,22 +74,24 @@ export class Form extends React.Component {
         <Field
           fieldName="Email"
           handleInputChange={this.handleInputChange}
-          errorText={this.EmailError}
+          errorText={this.state.EmailError}
         />
         <Field
           fieldName="Phone"
           handleInputChange={this.handleInputChange}
-          errorText={this.PhoneError}
+          errorText={this.state.PhoneError}
+          onBlur={this.validateNum}
         />
         <Field
           fieldName="Username"
           handleInputChange={this.handleInputChange}
-          errorText={this.UsernameError}
+          errorText={this.state.UsernameError}
         />
         <Password
           fieldName="Password"
           handleInputChange={this.handleInputChange}
-          errorText={this.PasswordError}
+          validatePW={this.validatePW}
+          errorText={this.state.PasswordError}
         />
         <Subscribe handleInputChange={this.handleInputChange} />
         <input type="submit" value="Submit" />

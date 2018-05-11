@@ -9,7 +9,7 @@ export class Subscribe extends React.Component {
           type="checkbox"
           name="Subscribe"
           onChange={this.props.handleInputChange}
-          value={this.props.Subscribe}
+          checked={this.props.Subscribe}
         />
       </label>
     );
