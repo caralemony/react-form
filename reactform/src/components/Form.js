@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Password } from "./Password";
 import { Field } from "./Field";
 import { Subscribe } from "./Subscribe";
@@ -17,7 +16,8 @@ export class Form extends React.Component {
       UsernameError: "",
       Password: "",
       PasswordError: "",
-      Subscribe: false
+      Subscribe: false,
+      formMes: ""
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,8 +36,52 @@ export class Form extends React.Component {
     this.setState({
       [name]: value
     });
-    console.log(this.state);
   }
+
+  validate = () => {
+    let isError = false;
+    const errors = {
+      EmailError: "",
+      PhoneError: "",
+      usernameError: "",
+      passwordError: ""
+    };
+
+    const userEmail = this.state.Email;
+    const regEx = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const phoneNum = this.state.Phone;
+
+    if (this.state.Username.length < 6) {
+      isError = true;
+      errors.usernameError = "Username needs to be at least 6 characters long";
+    }
+
+    if (regEx.test(userEmail)) {
+      isError = true;
+      errors.emailError = "Requires valid email";
+    }
+
+    if (this.state.Password.length < 6) {
+      isError = true;
+      errors.usernameError = "Password needs to be at least 8 characters long";
+    }
+
+    if (
+      phoneNum.match(/\d/g) &&
+      phoneNum.length === 11 &&
+      phoneNum.startsWith(0)
+    ) {
+      isError = true;
+      errors.PhoneError = "Please enter a valid phone number";
+    }
+
+    this.setState({
+      ...this.state,
+      ...errors
+    });
+
+    return isError;
+  };
 
   validatePW() {
     if (this.state.Password) {
@@ -52,8 +96,7 @@ export class Form extends React.Component {
   validateNum() {
     if (this.state.Phone) {
       const phoneNum = this.state.Phone;
-      this.state.Phone.match(/\d/g).length === 11 &&
-      this.state.Phone.startsWith(0)
+      phoneNum.match(/\d/g) && phoneNum.length === 11 && phoneNum.startsWith(0)
         ? this.setState({ PhoneError: "" })
         : this.setState({ PhoneError: "Please enter a valid phone number" });
     }
@@ -81,6 +124,11 @@ export class Form extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.validatePW();
+    this.validateNum();
+    this.validateEmail();
+    this.validateUsername();
+
     httpReq(this.state);
     this.setState({
       Email: "",
@@ -91,7 +139,8 @@ export class Form extends React.Component {
       UsernameError: "",
       Password: "",
       PasswordError: "",
-      Subscribe: false
+      Subscribe: false,
+      formMes: "Thank you for signing up"
     });
   }
 
@@ -124,7 +173,7 @@ export class Form extends React.Component {
         />
         <Subscribe handleInputChange={this.handleInputChange} />
         <input type="submit" value="Submit" />
-        <div>{this.formError}</div>
+        <div>{this.formMes}</div>
       </form>
     );
   }
