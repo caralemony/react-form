@@ -1,19 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Password } from "./Password";
-import { Email } from "./Email";
-import { Phone } from "./Phone";
+import { Field } from "./Field";
+import { Subscribe } from "./Subscribe";
 import httpReq from "../utils/httpReq";
 
 export class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      phone: "",
-      username: "",
-      password: "",
-      subscribe: ""
+      Email: "",
+      EmailError: "",
+      Phone: "",
+      PhoneError: "",
+      Username: "",
+      UsernameError: "",
+      Password: "",
+      PasswordError: "",
+      Subscribe: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,34 +37,33 @@ export class Form extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     httpReq(this.state);
+    console.log(this.state);
   }
 
   render() {
     return (
       <form className="userForm" onSubmit={this.handleSubmit}>
-        <Email handleInputChange={this.handleInputChange} />
-        <Phone handleInputChange={this.handleInputChange} />
-        <label>
-          Username
-          <input
-            type="text"
-            name="username"
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <Password
-          password={this.state.password}
-          onChange={this.handleInputChange}
+        <Field
+          fieldName="Email"
+          handleInputChange={this.handleInputChange}
+          errorText={this.EmailError}
         />
-        <label>
-          I would like to receive emails about our services
-          <input
-            type="checkbox"
-            name="subscribe"
-            onChange={this.handleInputChange}
-            value={this.state.subscribe}
-          />
-        </label>
+        <Field
+          fieldName="Phone"
+          handleInputChange={this.handleInputChange}
+          errorText={this.PhoneError}
+        />
+        <Field
+          fieldName="Username"
+          handleInputChange={this.handleInputChange}
+          errorText={this.UsernameError}
+        />
+        <Password
+          fieldName="Password"
+          handleInputChange={this.handleInputChange}
+          errorText={this.PasswordError}
+        />
+        <Subscribe handleInputChange={this.handleInputChange} />
         <input type="submit" value="Submit" />
       </form>
     );
