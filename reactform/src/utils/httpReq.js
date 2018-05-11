@@ -9,11 +9,10 @@ const httpReq = formState => {
   };
   console.log(userDetails);
   axios
-    .post(
+    .get(
       `https://g5xirepb1j.execute-api.eu-west-2.amazonaws.com/dev/post-test`,
-      userDetails
+      { body: userDetails }
     )
-    .then(res => res.json())
     .then(res => console.log(res))
     .catch(err => console.log(err));
 };
