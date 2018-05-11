@@ -24,6 +24,8 @@ export class Form extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.validatePW = this.validatePW.bind(this);
     this.validateNum = this.validateNum.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
+    this.validateUsername = this.validateUsername.bind(this);
   }
 
   handleInputChange(event) {
@@ -37,19 +39,44 @@ export class Form extends React.Component {
     console.log(this.state);
   }
 
-  validatePW(event) {
-    this.state.Password.length < 8
-      ? this.setState({ PasswordError: "" })
-      : this.setState({
-          PasswordError: "Passord must be 8 characters or longer"
-        });
+  validatePW() {
+    if (this.state.Password) {
+      this.state.Password.length > 8
+        ? this.setState({ PasswordError: "" })
+        : this.setState({
+            PasswordError: "Passord must be 8 characters or longer"
+          });
+    }
   }
 
-  validateNum(event) {
-    const phoneNum = this.state.Phone;
-    phoneNum.match(/\d/g).length === 11 && phoneNum.startsWith(0)
-      ? this.setState({ PhoneError: "" })
-      : this.setState({ PhoneError: "Please enter a valid phone number" });
+  validateNum() {
+    if (this.state.Phone) {
+      const phoneNum = this.state.Phone;
+      this.state.Phone.match(/\d/g).length === 11 &&
+      this.state.Phone.startsWith(0)
+        ? this.setState({ PhoneError: "" })
+        : this.setState({ PhoneError: "Please enter a valid phone number" });
+    }
+  }
+
+  validateEmail() {
+    if (this.state.Email) {
+      const userEmail = this.state.Email;
+      const regEx = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      regEx.test(userEmail)
+        ? this.setState({ EmailError: "" })
+        : this.setState({ EmailError: "Please enter a valid email address" });
+    }
+  }
+
+  validateUsername() {
+    if (this.state.Username) {
+      this.state.Username.length > 6
+        ? this.setState({ UsernameError: "" })
+        : this.setState({
+            UsernameError: "Username must be 6 characters or longer"
+          });
+    }
   }
 
   handleSubmit(event) {
@@ -75,17 +102,19 @@ export class Form extends React.Component {
           fieldName="Email"
           handleInputChange={this.handleInputChange}
           errorText={this.state.EmailError}
+          validate={this.validateEmail}
         />
         <Field
           fieldName="Phone"
           handleInputChange={this.handleInputChange}
           errorText={this.state.PhoneError}
-          onBlur={this.validateNum}
+          validate={this.validateNum}
         />
         <Field
           fieldName="Username"
           handleInputChange={this.handleInputChange}
           errorText={this.state.UsernameError}
+          validate={this.validateUsername}
         />
         <Password
           fieldName="Password"
@@ -95,6 +124,7 @@ export class Form extends React.Component {
         />
         <Subscribe handleInputChange={this.handleInputChange} />
         <input type="submit" value="Submit" />
+        <div>{this.formError}</div>
       </form>
     );
   }

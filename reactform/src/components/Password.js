@@ -9,7 +9,7 @@ export class Password extends React.Component {
           type="password"
           name={this.props.fieldName}
           onChange={this.props.handleInputChange}
-          onBlur={this.validatePW}
+          onBlur={this.props.validatePW}
         />
         <div>{this.props.errorText}</div>
       </label>
