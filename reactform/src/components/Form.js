@@ -26,7 +26,6 @@ export class Form extends React.Component {
   }
 
   handleInputChange(event) {
-    console.log(this.state);
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -96,37 +95,41 @@ export class Form extends React.Component {
         formMes: "Thank you for signing up"
       });
     } else {
-      console.log("bad");
       this.setState({ formMes: "Please complete all fields" });
     }
   }
 
   render() {
     return (
-      <form className="userForm" onSubmit={this.handleSubmit}>
+      <form className="form" onSubmit={this.handleSubmit}>
+        <h1 className="form__Title">Sign Up</h1>
         <Field
           fieldName="Email"
           handleInputChange={this.handleInputChange}
           errorText={this.state.EmailError}
+          value={this.state.Email}
         />
         <Field
           fieldName="Phone"
           handleInputChange={this.handleInputChange}
           errorText={this.state.PhoneError}
+          value={this.state.Phone}
         />
         <Field
           fieldName="Username"
           handleInputChange={this.handleInputChange}
           errorText={this.state.UsernameError}
+          value={this.state.Username}
         />
         <Password
           fieldName="Password"
           handleInputChange={this.handleInputChange}
           errorText={this.state.PasswordError}
+          value={this.state.Password}
         />
         <Subscribe handleInputChange={this.handleInputChange} />
         <input type="submit" value="Submit" />
-        <div>{this.formMes}</div>
+        <div>{this.state.formMes}</div>
       </form>
     );
   }
