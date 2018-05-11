@@ -8,7 +8,7 @@ export class Subscribe extends React.Component {
           I would like to receive emails about our services
           <input
             type="checkbox"
-            name="Subscribe"
+            name="subscribe"
             onChange={this.props.handleInputChange}
             checked={this.props.subscribe}
           />
