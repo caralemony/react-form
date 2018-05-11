@@ -8,15 +8,15 @@ export class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Email: "",
-      EmailError: "",
-      Phone: "",
-      PhoneError: "",
-      Username: "",
-      UsernameError: "",
-      Password: "",
-      PasswordError: "",
-      Subscribe: false,
+      email: "",
+      emailError: "",
+      phone: "",
+      phoneError: "",
+      username: "",
+      usernameError: "",
+      password: "",
+      passwordError: "",
+      subscribe: false,
       formMes: ""
     };
 
@@ -38,35 +38,32 @@ export class Form extends React.Component {
   validate = () => {
     let isError = false;
     const errors = {
-      EmailError: "",
-      PhoneError: "",
-      UsernameError: "",
-      PasswordError: ""
+      emailError: "",
+      phoneError: "",
+      usernameError: "",
+      passwordError: ""
     };
 
-    const userEmail = this.state.Email;
+    const userEmail = this.state.email;
     const regEx = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    const phoneNum = this.state.Phone;
+    const phoneNum = this.state.phone;
 
-    if (this.state.Username.length < 6) {
+    if (this.state.username.length < 6 || this.state.username.includes(" ")) {
       isError = true;
-      errors.UsernameError = "Username needs to be at least 6 characters long";
+      errors.usernameError =
+        "Username needs to be at least 6 characters long and must not contain spaces";
     }
     if (!regEx.test(userEmail)) {
       isError = true;
-      errors.EmailError = "Requires valid email";
+      errors.emailError = "Requires valid email";
     }
-    if (this.state.Password.length < 6) {
+    if (this.state.password.length < 6) {
       isError = true;
-      errors.PasswordError = "Password needs to be at least 8 characters long";
+      errors.passwordError = "Password needs to be at least 8 characters long";
     }
-    if (
-      !phoneNum.match(/\d/g) &&
-      phoneNum.length !== 11 &&
-      !phoneNum.startsWith(0)
-    ) {
+    if (phoneNum.match(/\[A-z]/g) || phoneNum.length !== 11) {
       isError = true;
-      errors.PhoneError = "Please enter a valid phone number";
+      errors.phoneError = "Please enter a valid phone number";
     }
 
     this.setState({
@@ -83,15 +80,15 @@ export class Form extends React.Component {
     if (!err) {
       httpReq(this.state);
       this.setState({
-        Email: "",
-        EmailError: "",
-        Phone: "",
-        PhoneError: "",
-        Username: "",
-        UsernameError: "",
-        Password: "",
-        PasswordError: "",
-        Subscribe: false,
+        email: "",
+        emailError: "",
+        phone: "",
+        phoneError: "",
+        username: "",
+        usernameError: "",
+        password: "",
+        passwordError: "",
+        subscribe: false,
         formMes: "Thank you for signing up"
       });
     } else {
@@ -104,32 +101,32 @@ export class Form extends React.Component {
       <form className="form" onSubmit={this.handleSubmit}>
         <h1 className="form__Title">Sign Up</h1>
         <Field
-          fieldName="Email"
+          fieldName="email"
           handleInputChange={this.handleInputChange}
-          errorText={this.state.EmailError}
-          value={this.state.Email}
+          errorText={this.state.emailError}
+          value={this.state.email}
         />
         <Field
-          fieldName="Phone"
+          fieldName="phone"
           handleInputChange={this.handleInputChange}
-          errorText={this.state.PhoneError}
-          value={this.state.Phone}
+          errorText={this.state.phoneError}
+          value={this.state.phone}
         />
         <Field
-          fieldName="Username"
+          fieldName="username"
           handleInputChange={this.handleInputChange}
-          errorText={this.state.UsernameError}
-          value={this.state.Username}
+          errorText={this.state.usernameError}
+          value={this.state.username}
         />
         <Password
-          fieldName="Password"
+          fieldName="password"
           handleInputChange={this.handleInputChange}
-          errorText={this.state.PasswordError}
-          value={this.state.Password}
+          errorText={this.state.passwordError}
+          value={this.state.password}
         />
         <Subscribe handleInputChange={this.handleInputChange} />
         <input type="submit" value="Submit" />
-        <div>{this.state.formMes}</div>
+        <p>{this.state.formMes}</p>
       </form>
     );
   }

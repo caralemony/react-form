@@ -5,13 +5,13 @@ export class Password extends React.Component {
     const error = this.props.errorText;
     return (
       <label>
-        Password
+        password
         <br />
         <input
           type="password"
           name={this.props.fieldName}
           onChange={this.props.handleInputChange}
-          onBlur={this.props.validatePW}
+          value={this.props.value}
         />
         <div>{error ? error : <br />}</div>
       </label>
