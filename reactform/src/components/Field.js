@@ -9,7 +9,6 @@ export class Field extends React.Component {
           type="text"
           name={this.props.fieldName}
           onChange={this.props.handleInputChange}
-          onBlur={this.props.validate}
         />
         <div>{this.props.errorText}</div>
       </label>
