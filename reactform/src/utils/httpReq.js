@@ -10,7 +10,7 @@ const httpReq = formState => {
   console.log(userDetails);
   axios
     .get(
-      `https://g5xirepb1j.execute-api.eu-west-2.amazonaws.com/dev/post-test`,
+      `https://cors-anywhere.herokuapp.com/https://g5xirepb1j.execute-api.eu-west-2.amazonaws.com/dev/post-test`,
       { body: userDetails }
     )
     .then(res => console.log(res))
